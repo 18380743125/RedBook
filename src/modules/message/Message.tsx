@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-function HomeTab() {
+function Message() {
   return (
     <View style={styles.root}>
-      <Text>HomeTab</Text>
+      <Text>Message</Text>
     </View>
   );
 }
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeTab;
+export default Message;

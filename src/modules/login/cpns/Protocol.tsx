@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import icon_selected from '../../../assets/icon_selected.png';
-import icon_unselected from '../../../assets/icon_unselected.png';
+import icon_selected from 'assets/icon_selected.png';
+import icon_unselected from 'assets/icon_unselected.png';
 
 type Props = {
   check: boolean;

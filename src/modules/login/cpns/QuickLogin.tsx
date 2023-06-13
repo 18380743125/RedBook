@@ -11,9 +11,9 @@ import {
 import { LoginContext } from '../loginContext';
 import Protocol from './Protocol';
 
-import icon_arrow from '../../../assets/icon_arrow.png';
-import icon_wx_small from '../../../assets/icon_wx_small.png';
-import main_icon from '../../../assets/icon_main_logo.png';
+import icon_arrow from 'assets/icon_arrow.png';
+import icon_wx_small from 'assets/icon_wx_small.png';
+import main_icon from 'assets/icon_main_logo.png';
 
 type Props = {
   setLoginType: (type: 'quick' | 'input') => void;

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import icon_main_logo from '../../assets/icon_main_logo.png';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { load } from 'utils/storage';
 
 function Welcome() {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -12,10 +13,15 @@ function Welcome() {
     const startLogin = () => {
       navigation.replace('Login');
     };
-    setTimeout(() => {
-      startLogin();
+    setTimeout(async () => {
+      const cacheUserInfo = await load('userInfo');
+      if (cacheUserInfo) {
+        return navigation.replace('MainTab');
+      } else {
+        startLogin();
+      }
     }, 3000);
-  }, [navigation]);
+  }, []);
 
   return (
     <View style={styles.root}>

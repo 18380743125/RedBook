@@ -20,7 +20,7 @@ function Welcome() {
       } else {
         startLogin();
       }
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (

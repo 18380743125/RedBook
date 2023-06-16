@@ -1,21 +1,28 @@
-import React, { useEffect } from 'react';
-import { Dimensions, FlatList, Image, ListRenderItem, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, FlatList } from 'react-native';
 import type { ListRenderItemInfo } from 'react-native';
 import { useLocalStore, observer } from 'mobx-react';
 
-import FlowList from 'components/flowlist/FlowList.js'
-import ResizeImage from 'components/ResizeImage'
+import FlowList from 'components/flowlist/FlowList.js';
+import ResizeImage from 'components/ResizeImage';
 
 import HomeStore from 'modules/home/HomeStore';
-import icon_heart from 'assets/icon_heart.png';
-import icon_heart_empty from 'assets/icon_heart_empty.png';
+import Heart from 'components/Heart';
+import HomeTitle from 'modules/home/cpns/HomeTitle';
+
+import CategoryList from 'modules/home/cpns/CategoryList';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 function Home() {
   const store = useLocalStore(() => new HomeStore());
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   useEffect(() => {
     store.requestHomeList();
+    store.getCategoryList();
   }, []);
 
   const refreshData = () => {
@@ -27,18 +34,28 @@ function Home() {
     store.requestHomeList();
   };
 
+  const onTabChanged = (tab: number) => {};
+
+  const onCategoryListChanged = (category: Category) => {
+    console.log(category);
+  };
+
+  const onArticlePress = (article: ArticleSimple) => {
+    navigation.push('ArticleDetail', { id: article.id });
+  };
+
   const renderItem = ({ item, index }: ListRenderItemInfo<ArticleSimple>) => {
     return (
-      <View style={styles.item}>
+      <TouchableOpacity style={styles.item} onPress={() => onArticlePress(item)}>
         <ResizeImage uri={item.image} />
         <Text style={styles.titleTxt}>{item.title}</Text>
         <View style={styles.nameLayout}>
           <Image style={styles.avatarImage} source={{ uri: item.avatarUrl }} />
           <Text style={styles.nameTxt}>{item.userName}</Text>
-          <Image style={styles.heart} source={item.isFavorite ? icon_heart : icon_heart_empty} />
+          <Heart value={item.isFavorite} onValueChanged={value => {}} />
           <Text style={styles.countTxt}>{item.favoriteCount}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -48,11 +65,15 @@ function Home() {
 
   return (
     <View style={styles.root}>
+      <HomeTitle tab={1} onTabChanged={onTabChanged} />
       <FlowList
         style={styles.flatList}
         contentContainerStyle={styles.container}
         data={store.homeList}
         renderItem={renderItem}
+        ListHeaderComponent={
+          <CategoryList categoryList={store.categoryList} onCategoryListChanged={onCategoryListChanged} />
+        }
         ListFooterComponent={<Footer />}
         numColumns={2}
         keyExtractor={(item: ArticleSimple) => item.id + item.title}
@@ -79,7 +100,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   container: {
-    paddingTop: 6,
+    // paddingTop: 6
   },
   item: {
     width: (SCREEN_WIDTH - 18) >>> 1,
@@ -113,11 +134,6 @@ const styles = StyleSheet.create({
     color: '#999',
     marginLeft: 6,
     flex: 1,
-  },
-  heart: {
-    width: 16,
-    height: 16,
-    resizeMode: 'contain',
   },
   countTxt: {
     fontSize: 14,

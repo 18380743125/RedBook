@@ -1,4 +1,4 @@
-import { action, observable, flow } from 'mobx';
+import { observable } from 'mobx';
 import { request } from 'utils/request';
 import Loading from 'components/widget/Loading';
 
@@ -18,7 +18,7 @@ export default class MineStore {
       this.requestCollectionList(),
       this.requestFavorateList(),
       this.requestInfo(),
-    ]).then(() => {
+    ]).then((res) => {
       Loading.hide();
       this.refreshing = false;
     });
@@ -44,7 +44,7 @@ export default class MineStore {
 
   requestFavorateList = async () => {
     try {
-      const { data } = await request('favorateList', {});
+      const { data } = await request('favoriteList', {});
       this.favorateList = data || [];
     } catch (error) {
       console.log(error);

@@ -5,8 +5,10 @@ import MessageStore from 'modules/message/MessageStore';
 
 import MessageTitle from 'modules/message/cpns/MessageTitle';
 import MessageHeader from 'modules/message/cpns/MessageHeader';
+import Empty from 'components/Empty';
 
 import icon_to_top from 'assets/icon_to_top.png';
+import icon_no_collection from 'assets/icon_no_collection.webp';
 
 function Message() {
   const store = useLocalStore(() => new MessageStore());
@@ -42,6 +44,7 @@ function Message() {
         extraData={[store.unread]}
         renderItem={renderItem}
         ListHeaderComponent={<MessageHeader unRead={store.unread} />}
+        ListEmptyComponent={<Empty icon={icon_no_collection} tips="暂无消息" />}
       />
     </View>
   );

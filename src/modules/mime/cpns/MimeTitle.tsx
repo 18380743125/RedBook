@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import icon_menu from 'assets/icon_menu.png';
 import icon_shop_car from 'assets/icon_shop_car.png';
 import icon_share from 'assets/icon_share.png';
+import { SlideMenuRef } from 'modules/mime/cpns/SlideMenu';
 
-function MimeTitle() {
+type Props = {
+  slideMenuRef: RefObject<SlideMenuRef>;
+};
+
+function MimeTitle({ slideMenuRef }: Props) {
   return (
     <View style={styles.root}>
-      <TouchableOpacity style={styles.menuButton}>
+      <TouchableOpacity
+        style={styles.menuButton}
+        onPress={() => {
+          slideMenuRef.current?.show();
+        }}>
         <Image style={styles.menuImg} source={icon_menu} />
       </TouchableOpacity>
       <View style={{ flex: 1 }} />

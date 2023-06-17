@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, Image, Text } from 'react-native';
+import { StyleSheet, TextInput, View, Image, Text, TouchableOpacity } from 'react-native';
 import Heart from 'components/Heart';
 
 import icon_collection from 'assets/icon_collection.png';
@@ -21,7 +21,9 @@ function ArticleBottom({ detail }: Props) {
       <Heart size={26} value={detail.isFavorite} />
       <Text style={styles.bottomCount}>{detail.favoriteCount}</Text>
 
-      <Image style={styles.bottomIcon} source={detail.isCollection ? icon_collection_selected : icon_collection} />
+      <TouchableOpacity>
+        <Image style={styles.bottomIcon} source={detail.isCollection ? icon_collection_selected : icon_collection} />
+      </TouchableOpacity>
       <Text style={styles.bottomCount}>{detail.collectionCount}</Text>
 
       <Image style={styles.bottomIcon} source={icon_comment} />

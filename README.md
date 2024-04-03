@@ -1,2 +1,1 @@
-# redbook
-Little Red Book project based on react native
+## 基于 React Native 实现的小红书 APP
